@@ -1,0 +1,63 @@
+{
+  "topics": [
+    {
+      "id": "social-media",
+      "title": "Should social media platforms be banned for students under 16?",
+      "context": "Hong Kong, like many places, is debating youth access to social media. Concerns about mental health, sleep, and academic performance must be balanced against the benefits of digital citizenship and peer connection.",
+      "wordTarget": 350,
+      "level": "Grade 11",
+      "stance_examples": ["Yes, ban it", "No, regulate but allow", "It depends on usage"]
+    },
+    {
+      "id": "ai-classroom",
+      "title": "Should AI writing tools be allowed in secondary school English classrooms?",
+      "context": "AI tools such as ChatGPT can produce polished essays in seconds. Some teachers see them as a threat to learning; others view them as the calculator of writing.",
+      "wordTarget": 400,
+      "level": "Grade 11",
+      "stance_examples": ["Yes, with guidelines", "No, ban entirely", "Only after Year 12"]
+    },
+    {
+      "id": "homework-abolish",
+      "title": "Is daily homework necessary for academic success?",
+      "context": "HK students consistently rank among the world's most homework-loaded. Critics say it harms wellbeing; supporters argue it builds discipline.",
+      "wordTarget": 350,
+      "level": "Grade 11",
+      "stance_examples": ["Yes, it is essential", "No, abolish it", "Reduce, don't abolish"]
+    },
+    {
+      "id": "english-medium",
+      "title": "Should all secondary schools in Hong Kong adopt English as the medium of instruction?",
+      "context": "EMI vs CMI is a long-standing debate in Hong Kong education, balancing global competitiveness against cultural identity and learning equity.",
+      "wordTarget": 400,
+      "level": "Grade 11",
+      "stance_examples": ["Yes, EMI for all", "No, CMI is fine", "Subject-by-subject"]
+    },
+    {
+      "id": "plastic-ban",
+      "title": "Should single-use plastics be completely banned in Hong Kong?",
+      "context": "HK rolled out partial bans recently. Environmentalists want more; small businesses warn of cost burdens.",
+      "wordTarget": 350,
+      "level": "Grade 11",
+      "stance_examples": ["Yes, full ban", "Phased ban", "No, voluntary instead"]
+    }
+  ],
+  "sample_essay": {
+    "topic": "Should AI writing tools be allowed in secondary school English classrooms?",
+    "annotated": [
+      {"text": "AI writing tools should be permitted in secondary school English classrooms, but only when paired with explicit instruction on argument quality.", "comp": "claim"},
+      {"text": " A 2024 OECD study found that 78% of students who used AI assistants under teacher guidance improved their argument structure scores by at least one band.", "comp": "data"},
+      {"text": " This pattern suggests that AI access alone is not the cause of improvement; structured pedagogy is.", "comp": "warrant"},
+      {"text": " The same finding has been replicated by Marzuki et al. (2023) across Indonesian classrooms, lending breadth to the claim.", "comp": "backing"},
+      {"text": " Although this evidence is robust for guided contexts, it may not hold where teachers lack training in AI integration.", "comp": "qualifier"},
+      {"text": " Critics argue that any AI access erodes critical thinking; however, this position conflates the tool with how it is used, an analytical error.", "comp": "rebuttal"}
+    ]
+  },
+  "tutor_starters": [
+    "What is the strongest claim you want to make in this essay?",
+    "Help me find evidence for my argument",
+    "How do I write a good rebuttal?",
+    "Explain Toulmin's model with an example",
+    "Critique my thesis statement",
+    "Suggest a counter-argument I should address"
+  ]
+}

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ArguMentor — AI Writing Assistant for Argumentative Writing</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <nav class="nav">
+    <a href="index.html" class="nav-brand">
+      <span class="logo">A</span>
+      <span>ArguMentor</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="workspace.html">Workspace</a>
+      <a href="tutor.html">AI Tutor</a>
+      <a href="dashboard.html">Progress</a>
+      <a href="teacher.html">Teacher</a>
+      <a href="resources.html">Resources</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <h1>Argue with clarity. Write with evidence.</h1>
+    <p class="lead">
+      An AI writing assistant for Hong Kong Grade-11 students that goes beyond grammar checks —
+      designed around <strong>Toulmin&rsquo;s six components of argument</strong> to coach
+      claims, evidence, warrants, and rebuttals.
+    </p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="workspace.html">Start writing →</a>
+      <a class="btn btn-ghost" href="resources.html">See a worked example</a>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📝</div>
+        <h3>Toulmin scaffolding</h3>
+        <p>The editor watches for the six components — claim, data, warrant, backing, qualifier, rebuttal — and tells you what is still missing.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✓</div>
+        <h3>Grammar &amp; style</h3>
+        <p>Catches the errors HK ESL writers make most often: subject–verb agreement, articles, wordy phrasing, register slips.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <h3>Socratic AI tutor</h3>
+        <p>The tutor will not write your essay. It asks the questions a strong teacher would, scaffolding your thinking instead of replacing it.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Progress tracking</h3>
+        <p>Each draft is scored on the six Toulmin dimensions plus organisation and language so you can see where you are improving.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">👩‍🏫</div>
+        <h3>Hybrid teacher review</h3>
+        <p>Teachers see every submitted draft alongside the AI feedback and can leave their own annotations — automation without losing human judgement.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📚</div>
+        <h3>Built for the curriculum</h3>
+        <p>Argumentative essay topics drawn from issues HK Grade 11 students actually debate: AI policy, EMI/CMI, single-use plastics, social-media bans.</p>
+      </div>
+    </div>
+
+    <div class="card mt-24">
+      <h2 style="margin-top:0">How a session works</h2>
+      <ol style="line-height:1.9; color:var(--text-muted)">
+        <li><strong>Pick a topic</strong> from the curated argumentative-essay prompts, or paste your own.</li>
+        <li><strong>Draft your essay</strong> in the workspace. As you type, the right-hand panel highlights grammar issues; the left panel ticks off Toulmin components as it detects them.</li>
+        <li><strong>Ask the AI tutor</strong> when you are stuck — it asks you back instead of writing for you.</li>
+        <li><strong>Submit the draft</strong>. Your scores are saved so you can compare later attempts on the Progress page.</li>
+        <li><strong>Your teacher reviews</strong> the draft and the AI&rsquo;s automated feedback, adding a final note.</li>
+      </ol>
+    </div>
+
+    <div class="card mt-24">
+      <h2 style="margin-top:0">Theoretical grounding</h2>
+      <p class="text-muted" style="margin-bottom: 14px">
+        The platform implements three frameworks from the project literature review:
+      </p>
+      <ul style="line-height:1.9">
+        <li><strong>Toulmin&rsquo;s Model of Argumentation</strong> (Turós et al., 2024) — operationalised in the live component detector.</li>
+        <li><strong>Process Writing Theory</strong> (MacArthur, 2015; Hayes, 2012) — drafts are versioned so revision is tracked, not erased.</li>
+        <li><strong>Sociocultural Learning Theory</strong> (Vygotsky, via Jeong et al., 2022) — the AI tutor plays the &ldquo;more knowledgeable other&rdquo;: it scaffolds without doing the cognitive work for the learner.</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer class="footer">
+    ArguMentor · Capstone prototype for TDLL 7000 · Designed for Grade 11 ESL writers in Hong Kong.
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

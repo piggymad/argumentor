@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Workspace · ArguMentor</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <nav class="nav">
+    <a href="index.html" class="nav-brand">
+      <span class="logo">A</span><span>ArguMentor</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="workspace.html">Workspace</a>
+      <a href="tutor.html">AI Tutor</a>
+      <a href="dashboard.html">Progress</a>
+      <a href="teacher.html">Teacher</a>
+      <a href="resources.html">Resources</a>
+    </div>
+  </nav>
+
+  <div class="workspace">
+    <!-- LEFT: topic + Toulmin scaffold -->
+    <aside class="panel">
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="topic">Topic</button>
+        <button class="tab-btn" data-tab="scaffold">Toulmin</button>
+        <button class="tab-btn" data-tab="drafts">Drafts</button>
+      </div>
+
+      <div class="panel-body">
+        <div class="tab-pane active" data-pane="topic" id="topicPane">
+          <p class="text-muted text-sm" style="margin-top:0">
+            Pick an argumentative-writing prompt. Topics are drawn from current Hong Kong issues.
+          </p>
+          <div id="topicList"></div>
+        </div>
+
+        <div class="tab-pane" data-pane="scaffold" id="scaffoldPane">
+          <p class="text-muted text-sm" style="margin-top:0">
+            The six Toulmin components. A green check means the engine has detected at least one cue
+            for it in your current draft.
+          </p>
+          <div id="scaffoldList"></div>
+        </div>
+
+        <div class="tab-pane" data-pane="drafts" id="draftsPane">
+          <p class="text-muted text-sm" style="margin-top:0">Your saved drafts.</p>
+          <div id="draftList"></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- CENTER: editor -->
+    <main class="panel">
+      <div class="panel-header">
+        <h3 id="essayTitle">Untitled draft</h3>
+        <div class="flex gap-8">
+          <button class="btn btn-ghost btn-sm" id="newDraftBtn">New</button>
+          <button class="btn btn-ghost btn-sm" id="saveBtn">Save</button>
+          <button class="btn btn-primary btn-sm" id="submitBtn">Submit for review</button>
+        </div>
+      </div>
+      <textarea id="editor" placeholder="Start drafting your argumentative essay here.
+
+A strong opening states your claim in one sentence.
+Try: &quot;I argue that…&quot; or &quot;This essay contends that…&quot;"></textarea>
+      <div class="toolbar">
+        <div class="toolbar-info">
+          <span><strong id="wcVal">0</strong> words</span>
+          <span><strong id="rtVal">0</strong> min read</span>
+          <span>Score: <strong id="scoreVal">—</strong> / 100</span>
+          <span id="saveState" class="text-muted">unsaved</span>
+        </div>
+        <div class="toolbar-actions">
+          <a class="btn btn-ghost btn-sm" href="tutor.html">Ask the tutor →</a>
+        </div>
+      </div>
+    </main>
+
+    <!-- RIGHT: feedback -->
+    <aside class="panel">
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="feedback">Feedback</button>
+        <button class="tab-btn" data-tab="scores">Scores</button>
+      </div>
+
+      <div class="panel-body">
+        <div class="tab-pane active" data-pane="feedback" id="feedbackPane">
+          <div class="feedback-section">
+            <h4>Argument structure</h4>
+            <div id="argTips"></div>
+          </div>
+          <div class="feedback-section">
+            <h4>Grammar &amp; style</h4>
+            <div id="grammarList"></div>
+          </div>
+        </div>
+
+        <div class="tab-pane" data-pane="scores" id="scoresPane">
+          <div id="scoreList"></div>
+          <p class="text-muted text-sm mt-12">
+            Scores are derived heuristically from Toulmin component cues, paragraph
+            organisation and sentence-length variance. The same module can be swapped
+            for a real LLM scorer without changing the UI.
+          </p>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/feedback-engine.js"></script>
+  <script src="js/workspace.js"></script>
+</body>
+</html>

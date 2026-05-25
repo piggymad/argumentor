@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Tutor · ArguMentor</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <nav class="nav">
+    <a href="index.html" class="nav-brand">
+      <span class="logo">A</span><span>ArguMentor</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="workspace.html">Workspace</a>
+      <a href="tutor.html">AI Tutor</a>
+      <a href="dashboard.html">Progress</a>
+      <a href="teacher.html">Teacher</a>
+      <a href="resources.html">Resources</a>
+    </div>
+  </nav>
+
+  <div class="container" style="padding-top:18px; padding-bottom:18px">
+    <div class="page-header">
+      <h1>AI Tutor</h1>
+      <p>The tutor is built on a Vygotskian principle: it asks the questions a strong teacher would ask. It will not draft your essay for you.</p>
+    </div>
+  </div>
+
+  <div class="chat-container">
+    <div class="chat-messages" id="messages"></div>
+    <div class="suggestion-chips" id="chips"></div>
+    <form class="chat-input-row" id="form" autocomplete="off">
+      <input id="input" placeholder="Ask the tutor a question — e.g., 'Help me strengthen my thesis…'" />
+      <button class="btn btn-primary" type="submit">Send</button>
+    </form>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/feedback-engine.js"></script>
+  <script src="js/tutor.js"></script>
+</body>
+</html>

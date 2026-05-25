@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Teacher Review · ArguMentor</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <nav class="nav">
+    <a href="index.html" class="nav-brand"><span class="logo">A</span><span>ArguMentor</span></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="workspace.html">Workspace</a>
+      <a href="tutor.html">AI Tutor</a>
+      <a href="dashboard.html">Progress</a>
+      <a href="teacher.html">Teacher</a>
+      <a href="resources.html">Resources</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="page-header">
+      <h1>Teacher review panel</h1>
+      <p>Hybrid feedback: review the AI&rsquo;s automated analysis, then add your own annotation. Your note is what the student sees first.</p>
+    </div>
+
+    <div id="splitView" style="display:grid; grid-template-columns: 360px 1fr; gap:18px">
+      <div>
+        <div class="card" style="padding:14px">
+          <h3 style="margin:0 0 12px; font-size:14px; text-transform:uppercase; letter-spacing:.5px; color:var(--text-muted)">Submitted drafts</h3>
+          <div id="studentList" class="student-list"></div>
+        </div>
+      </div>
+      <div id="reviewArea">
+        <div class="card">
+          <p class="text-muted">Select a submission on the left to review.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/feedback-engine.js"></script>
+  <script src="js/teacher.js"></script>
+</body>
+</html>
