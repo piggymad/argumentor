@@ -9,7 +9,7 @@
 
   // ---------- Toulmin component cues ----------
   // Each component has lexical/syntactic cues drawn from argument-writing
-  // research (Toulmin 1958, applied per Turós et al. 2024).
+  // research (Toulmin 1958/2003, applied per Turós et al. 2025).
   const CUES = {
     claim: [
       /\b(I (?:argue|believe|contend|maintain|claim|hold)\b)/i,
@@ -260,7 +260,7 @@
       return "Good — let's sharpen your claim.\n1) State your position in one sentence.\n2) Make sure it is debatable: someone reasonable could disagree.\n3) Make it specific: avoid 'AI is good' — try 'AI writing tools improve learning when paired with explicit teacher guidance.'\n\nWhat is your one-sentence claim right now?";
     }
     if (m.match(/evidence|data|source|cite|statistics/)) {
-      return "Evidence in argumentative writing usually comes in four flavours:\n• Statistics ('78% of students…')\n• Studies ('Marzuki et al. (2023) found…')\n• Examples ('The 2023 HK reform showed…')\n• Authority ('The OECD reports…')\n\nWhich type fits your topic? Pick one and tell me what claim it would support.";
+      return "Evidence in argumentative writing usually comes in four flavours:\n• Statistics ('X% of students…' — only with a real, citable source)\n• Studies ('Lam, Hew and Chiu (2018) found…')\n• Examples ('The 2023 HK plastics policy showed…')\n• Authority ('A government education report finds…')\n\nUse only figures and studies you can actually cite — never invent them. Which type fits your topic, and what claim would it support?";
     }
     if (m.match(/counter|rebuttal|opposing|other side/)) {
       return "A strong rebuttal does three things:\n1) Name the strongest opposing view fairly (don't strawman it).\n2) Concede whatever is genuinely valid in it.\n3) Show why your position still holds — usually because the opposing view misses something specific.\n\nTell me your claim and I'll help you find the strongest counter to it.";

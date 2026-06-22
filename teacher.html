@@ -7,8 +7,10 @@
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
   <nav class="nav">
     <a href="index.html" class="nav-brand"><span class="logo">A</span><span>ArguMentor</span></a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
     <div class="nav-links">
       <a href="index.html">Home</a>
       <a href="workspace.html">Workspace</a>
@@ -16,10 +18,11 @@
       <a href="dashboard.html">Progress</a>
       <a href="teacher.html">Teacher</a>
       <a href="resources.html">Resources</a>
+      <a href="settings.html">Settings</a>
     </div>
   </nav>
 
-  <div class="container">
+  <div class="container" id="main">
     <div class="page-header">
       <h1>Teacher review panel</h1>
       <p>Hybrid feedback: review the AI&rsquo;s automated analysis, then add your own annotation. Your note is what the student sees first.</p>

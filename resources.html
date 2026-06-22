@@ -7,8 +7,10 @@
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
   <nav class="nav">
     <a href="index.html" class="nav-brand"><span class="logo">A</span><span>ArguMentor</span></a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
     <div class="nav-links">
       <a href="index.html">Home</a>
       <a href="workspace.html">Workspace</a>
@@ -16,10 +18,11 @@
       <a href="dashboard.html">Progress</a>
       <a href="teacher.html">Teacher</a>
       <a href="resources.html">Resources</a>
+      <a href="settings.html">Settings</a>
     </div>
   </nav>
 
-  <div class="container">
+  <div class="container" id="main">
     <div class="page-header">
       <h1>Learning resources</h1>
       <p>Worked examples, mini-lessons, and reference cards for each Toulmin component.</p>
@@ -61,7 +64,7 @@
         </div>
         <div class="body">
           <p>Use a <strong>mix</strong> of statistics, study citations, examples, and authorities — not all of the same kind.</p>
-          <ul><li>Cite a year and source: "A 2024 OECD study found that…"</li></ul>
+          <ul><li>Cite a real, traceable source — author and year: "Lam, Hew and Chiu (2018) found that…"</li><li>Invent neither statistics nor studies. If you cannot cite it, do not claim it.</li></ul>
         </div>
       </div>
       <div class="resource-card">
@@ -117,7 +120,7 @@
     <div class="card mt-24">
       <h2 style="margin-top:0">Theoretical framework</h2>
       <ul style="line-height:1.9">
-        <li><strong>Toulmin&rsquo;s Model of Argumentation</strong> (Turós et al., 2024) — the six components used everywhere in the platform.</li>
+        <li><strong>Toulmin&rsquo;s Model of Argumentation</strong> (Toulmin, 2003; applied by Turós et al., 2025) — the six components used everywhere in the platform.</li>
         <li><strong>Process Writing Theory</strong> (MacArthur, 2015) — writing is recursive; revisions are versioned, not erased.</li>
         <li><strong>Sociocultural Learning Theory</strong> (Vygotsky, via Jeong et al., 2022) — the AI tutor scaffolds without doing the cognitive work.</li>
       </ul>

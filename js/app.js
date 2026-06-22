@@ -59,7 +59,21 @@
     const here = location.pathname.split('/').pop() || 'index.html';
     document.querySelectorAll('.nav-links a').forEach(a => {
       const href = a.getAttribute('href');
-      if (href === here) a.classList.add('active');
+      if (href === here) {
+        a.classList.add('active');
+        a.setAttribute('aria-current', 'page');
+      }
+    });
+  }
+
+  // Shared mobile navigation toggle (present on every page's nav).
+  function wireNavToggle() {
+    const toggle = document.querySelector('.nav-toggle');
+    const links = document.querySelector('.nav-links');
+    if (!toggle || !links) return;
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', String(open));
     });
   }
 
@@ -83,7 +97,7 @@
           topicId: 'ai-classroom',
           topicTitle: 'Should AI writing tools be allowed in secondary school English classrooms?',
           content:
-            'AI writing tools should be permitted in secondary school English classrooms. They give students faster feedback than a teacher with thirty essays to mark. According to a 2024 OECD report, 78% of supervised students improved by one band. However, critics may argue that students will become dependent on the tool. This is a real risk; the solution is teacher supervision, not a ban.\n\nIn most cases, supervised AI use is therefore beneficial.',
+            'AI writing tools should be permitted in secondary school English classrooms. They give students faster feedback than a teacher with thirty essays to mark. Lam, Hew and Chiu (2018) found that a blended, technology-supported approach improved Hong Kong secondary students\' argumentative writing. However, critics may argue that students will become dependent on the tool. This is a real risk; the solution is teacher supervision, not a ban.\n\nIn most cases, supervised AI use is therefore beneficial.',
           createdAt: now - 1000 * 60 * 60 * 26,
           updatedAt: now - 1000 * 60 * 60 * 26,
           version: 1,
@@ -95,7 +109,7 @@
           topicId: 'ai-classroom',
           topicTitle: 'Should AI writing tools be allowed in secondary school English classrooms?',
           content:
-            'I argue that AI writing tools should be permitted in secondary school English classrooms, but only when paired with explicit instruction on argument quality. A 2024 OECD study found that 78% of students who used AI assistants under teacher guidance improved their argument structure scores by at least one band. This shows that AI access alone is not the cause of improvement; structured pedagogy is. Marzuki et al. (2023) replicated similar findings across Indonesian classrooms, lending broader support.\n\nCritics argue that AI access erodes critical thinking. However, this position conflates the tool with how it is used, which is an analytical error. In most cases, when paired with guided instruction, AI use enhances rather than replaces the cognitive work of writing.',
+            'I argue that AI writing tools should be permitted in secondary school English classrooms, but only when paired with explicit instruction on argument quality. Lam, Hew and Chiu (2018) found that Hong Kong secondary students who received structured, technology-supported instruction produced stronger arguments than peers taught conventionally. This shows that AI access alone is not the cause of improvement; structured pedagogy is. Marzuki et al. (2023) reported similar teacher-observed gains in content and organisation across EFL classrooms, lending broader support.\n\nCritics argue that AI access erodes critical thinking. However, this position conflates the tool with how it is used, which is an analytical error. In most cases, when paired with guided instruction, AI use enhances rather than replaces the cognitive work of writing.',
           createdAt: now - 1000 * 60 * 60 * 2,
           updatedAt: now - 1000 * 60 * 60 * 2,
           version: 2,
@@ -110,6 +124,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     highlightNav();
+    wireNavToggle();
     seedIfEmpty();
   });
 })(window);

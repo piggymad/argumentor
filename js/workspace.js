@@ -28,7 +28,11 @@
     btn.addEventListener('click', () => {
       const group = btn.parentElement;
       const tab = btn.dataset.tab;
-      group.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b === btn));
+      group.querySelectorAll('.tab-btn').forEach(b => {
+        const on = b === btn;
+        b.classList.toggle('active', on);
+        b.setAttribute('aria-selected', String(on));
+      });
       const root = group.parentElement;
       root.querySelectorAll('.tab-pane').forEach(p => p.classList.toggle('active', p.dataset.pane === tab));
     });
@@ -154,6 +158,7 @@
     }
     const draft = saveNow(true);
     AM.toast('Submitted to your teacher for review.');
+    openReflection(draft);
   });
 
   function saveNow(submit) {
@@ -169,6 +174,9 @@
       if (submit) {
         draft.submitted = true;
         draft.version = (draft.version || 1) + 1;
+        // Process-writing theory: keep each submitted revision rather than
+        // overwriting, so progress is visible and diffable later.
+        draft.revisions = (draft.revisions || []).concat([{ version: draft.version, content: text, at: now }]);
       }
     } else {
       draft = {
@@ -179,8 +187,9 @@
         content: text,
         createdAt: now,
         updatedAt: now,
-        version: submit ? 1 : 1,
-        submitted: !!submit
+        version: 1,
+        submitted: !!submit,
+        revisions: submit ? [{ version: 1, content: text, at: now }] : []
       };
       state.draftId = draft.id;
     }
@@ -206,21 +215,157 @@
     }, 1500);
   });
 
+  let lastComponents = null;
   function runAnalysis() {
     const text = editor.value;
     const r = ArguMentorEngine.analyse(text);
+    lastComponents = r.components;
     wcEl.textContent = r.wordCount;
     rtEl.textContent = r.readingTime;
     scoreEl.textContent = text.trim() ? r.scores.overall : '—';
     renderScaffold(r.components);
     renderFeedback(r);
     renderScores(r);
+    if (!highlightView.hidden) renderHighlightView();
+  }
+
+  // ---------- Components view (read-only highlighted preview) ----------
+  const viewToggle = $('#viewToggle');
+  const highlightView = $('#highlightView');
+  viewToggle.addEventListener('click', () => {
+    const show = highlightView.hidden;
+    highlightView.hidden = !show;
+    editor.hidden = show;
+    viewToggle.setAttribute('aria-pressed', String(show));
+    viewToggle.textContent = show ? 'Edit text' : 'Show components';
+    if (show) renderHighlightView();
+  });
+
+  function renderHighlightView() {
+    highlightView.innerHTML = annotate(editor.value, lastComponents) + componentLegend();
+  }
+
+  // Wrap each detected component's matched span in a coloured marker.
+  function annotate(text, components) {
+    if (!text.trim()) return '<p class="text-muted">Nothing to show yet — start writing.</p>';
+    const priority = ['rebuttal', 'qualifier', 'backing', 'warrant', 'data', 'claim'];
+    const ranges = [];
+    Object.keys(components || {}).forEach(comp => {
+      components[comp].forEach(h => ranges.push({ start: h.index, end: h.index + h.length, comp }));
+    });
+    ranges.sort((a, b) => a.start - b.start || (priority.indexOf(a.comp) - priority.indexOf(b.comp)));
+    const clean = [];
+    let lastEnd = -1;
+    ranges.forEach(r => { if (r.start >= lastEnd) { clean.push(r); lastEnd = r.end; } });
+    let out = '', cursor = 0;
+    clean.forEach(r => {
+      out += escapeHtml(text.slice(cursor, r.start));
+      out += `<span data-comp="${r.comp}" title="${r.comp}">${escapeHtml(text.slice(r.start, r.end))}</span>`;
+      cursor = r.end;
+    });
+    out += escapeHtml(text.slice(cursor));
+    return out.replace(/\n/g, '<br>');
+  }
+
+  function componentLegend() {
+    const items = [['claim', 'Claim'], ['data', 'Data'], ['warrant', 'Warrant'], ['backing', 'Backing'], ['qualifier', 'Qualifier'], ['rebuttal', 'Rebuttal']];
+    return '<div class="legend-row">' + items.map(([k, l]) => `<span class="tag tag-${k}">${l}</span>`).join('') + '</div>';
+  }
+
+  // ---------- Optional AI review (on demand) ----------
+  const aiBtn = $('#aiReviewBtn');
+  const aiFeedback = $('#aiFeedback');
+  const aiPill = $('#aiPill');
+  refreshAiPill();
+  function refreshAiPill() {
+    const on = window.ArguMentorLLM && ArguMentorLLM.isConfigured();
+    aiPill.textContent = on ? 'on' : 'optional';
+    aiPill.classList.toggle('pill-on', !!on);
+  }
+
+  aiBtn.addEventListener('click', async () => {
+    if (!window.ArguMentorLLM || !ArguMentorLLM.isConfigured()) {
+      aiFeedback.innerHTML = '<div class="feedback-empty">AI review is optional. Add your own model key in <a href="settings.html">Settings</a> to enable it. The rule-based feedback below always works.</div>';
+      return;
+    }
+    const text = editor.value.trim();
+    if (!text) { aiFeedback.innerHTML = '<div class="feedback-empty">Write something first.</div>'; return; }
+    aiBtn.disabled = true;
+    aiFeedback.innerHTML = '<div class="feedback-empty">Asking your model…</div>';
+    try {
+      const res = await ArguMentorLLM.analyseEssay(text, state.topicTitle);
+      renderAiFeedback(res);
+    } catch (e) {
+      aiFeedback.innerHTML = '<div class="feedback-item style"><div class="label">AI unavailable — using rule-based feedback</div>' + escapeHtml(e.message || String(e)) + '</div>';
+    } finally {
+      aiBtn.disabled = false;
+    }
+  });
+
+  function renderAiFeedback(res) {
+    const labels = { claim: 'Claim', data: 'Data', warrant: 'Warrant', backing: 'Backing', qualifier: 'Qualifier', rebuttal: 'Rebuttal' };
+    let html = '';
+    if (res.overall && res.overall.comment) {
+      html += `<div class="feedback-item argument"><div class="label">Overall</div>${escapeHtml(res.overall.comment)}</div>`;
+    }
+    Object.keys(labels).forEach(k => {
+      const c = res.components && res.components[k];
+      if (c && c.feedback) {
+        html += `<div class="feedback-item ${c.present ? 'argument' : 'style'}"><div class="label">${labels[k]} ${c.present ? '✓' : '○'}</div>${escapeHtml(c.feedback)}</div>`;
+      }
+    });
+    if (res.overall && res.overall.next_steps && res.overall.next_steps.length) {
+      html += '<div class="feedback-item"><div class="label">Next steps</div><ul style="margin:6px 0 0 16px">' +
+        res.overall.next_steps.map(s => `<li>${escapeHtml(s)}</li>`).join('') + '</ul></div>';
+    }
+    html += '<p class="text-muted text-sm mt-12">AI feedback is a suggestion from your chosen model — judge it critically, like any source.</p>';
+    aiFeedback.innerHTML = html || '<div class="feedback-empty">No AI feedback returned.</div>';
+  }
+
+  // ---------- Post-submit self-assessment (process reflection) ----------
+  function openReflection(draft) {
+    const comps = [['claim', 'Claim'], ['data', 'Data'], ['warrant', 'Warrant'], ['backing', 'Backing'], ['qualifier', 'Qualifier'], ['rebuttal', 'Rebuttal']];
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = `
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="reflTitle">
+        <h3 id="reflTitle" style="margin-top:0">Quick reflection</h3>
+        <p class="text-muted text-sm">Before you see the feedback, how confident are you about each part of your argument? This is just for you.</p>
+        <div id="reflBody">
+          ${comps.map(([k, l]) => `
+            <div class="refl-row">
+              <span class="tag tag-${k}">${l}</span>
+              <input type="range" min="1" max="5" value="3" name="refl-${k}" aria-label="${l} confidence (1 low to 5 high)" />
+            </div>`).join('')}
+        </div>
+        <div class="flex gap-8 mt-12" style="justify-content:flex-end">
+          <button class="btn btn-ghost btn-sm" id="reflSkip">Skip</button>
+          <button class="btn btn-primary btn-sm" id="reflSave">Save reflection</button>
+        </div>
+      </div>`;
+    document.body.appendChild(overlay);
+    const close = () => overlay.remove();
+    overlay.querySelector('#reflSkip').addEventListener('click', close);
+    overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+    overlay.querySelector('#reflSave').addEventListener('click', () => {
+      const out = { draftId: draft.id, version: draft.version, at: Date.now(), ratings: {} };
+      comps.forEach(([k]) => {
+        const el = overlay.querySelector(`[name="refl-${k}"]`);
+        out.ratings[k] = Number(el.value);
+      });
+      let all = [];
+      try { all = JSON.parse(localStorage.getItem('argumentor.reflections.v1')) || []; } catch (e) { all = []; }
+      all.push(out);
+      localStorage.setItem('argumentor.reflections.v1', JSON.stringify(all));
+      AM.toast('Reflection saved.');
+      close();
+    });
   }
 
   // ---------- Toulmin scaffold ----------
   const COMPONENTS = [
     { key: 'claim',     label: 'Claim',     desc: 'The position you are defending.', example: 'I argue that AI writing tools should be permitted only with explicit teacher guidance.' },
-    { key: 'data',      label: 'Data / Grounds', desc: 'Evidence supporting the claim.', example: 'A 2024 OECD study found that 78% of supervised students improved by one band.' },
+    { key: 'data',      label: 'Data / Grounds', desc: 'Evidence supporting the claim.', example: 'Lam, Hew and Chiu (2018) found a blended approach improved HK students\' argumentative writing.' },
     { key: 'warrant',   label: 'Warrant',   desc: 'The reasoning that links data to claim.', example: 'This shows that pedagogy, not access, drives the gain.' },
     { key: 'backing',   label: 'Backing',   desc: 'Broader support for the warrant.', example: 'Marzuki et al. (2023) replicated the finding across Indonesian classrooms.' },
     { key: 'qualifier', label: 'Qualifier', desc: 'How strongly the claim is stated.', example: 'In most cases, when paired with guided instruction…' },

@@ -45,9 +45,9 @@
     "topic": "Should AI writing tools be allowed in secondary school English classrooms?",
     "annotated": [
       {"text": "AI writing tools should be permitted in secondary school English classrooms, but only when paired with explicit instruction on argument quality.", "comp": "claim"},
-      {"text": " A 2024 OECD study found that 78% of students who used AI assistants under teacher guidance improved their argument structure scores by at least one band.", "comp": "data"},
+      {"text": " Lam, Hew and Chiu (2018) found that Hong Kong secondary students given structured, technology-supported instruction produced stronger arguments than peers taught conventionally.", "comp": "data"},
       {"text": " This pattern suggests that AI access alone is not the cause of improvement; structured pedagogy is.", "comp": "warrant"},
-      {"text": " The same finding has been replicated by Marzuki et al. (2023) across Indonesian classrooms, lending breadth to the claim.", "comp": "backing"},
+      {"text": " Marzuki et al. (2023) report similar teacher-observed gains in content and organisation across EFL classrooms, lending breadth to the claim.", "comp": "backing"},
       {"text": " Although this evidence is robust for guided contexts, it may not hold where teachers lack training in AI integration.", "comp": "qualifier"},
       {"text": " Critics argue that any AI access erodes critical thinking; however, this position conflates the tool with how it is used, an analytical error.", "comp": "rebuttal"}
     ]

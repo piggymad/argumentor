@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Settings · ArguMentor</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <nav class="nav">
+    <a href="index.html" class="nav-brand"><span class="logo">A</span><span>ArguMentor</span></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="workspace.html">Workspace</a>
+      <a href="tutor.html">AI Tutor</a>
+      <a href="dashboard.html">Progress</a>
+      <a href="teacher.html">Teacher</a>
+      <a href="resources.html">Resources</a>
+      <a href="settings.html">Settings</a>
+    </div>
+  </nav>
+
+  <main class="container" id="main">
+    <div class="page-header">
+      <h1>Settings</h1>
+      <p>Optional AI enhancement, your data, and research feedback. ArguMentor works fully without any of this.</p>
+    </div>
+
+    <!-- Optional LLM -->
+    <section class="card mt-12" aria-labelledby="aiHead">
+      <h2 id="aiHead" style="margin-top:0">Optional AI feedback (bring your own key)</h2>
+      <p class="text-muted">
+        By default ArguMentor uses a transparent, offline rule-based engine. If you add your own
+        large-language-model API key below, the Workspace gains an <strong>AI review</strong> button
+        and the Tutor answers through your model. If a request fails, ArguMentor silently falls back
+        to the rule-based engine.
+      </p>
+      <div class="callout" role="note">
+        <strong>Privacy.</strong> Your key and settings are stored only in this browser
+        (<code>localStorage</code>). Requests go directly from your browser to the provider —
+        ArguMentor has no server and never receives your key or your writing.
+      </div>
+
+      <div class="form-grid mt-12">
+        <label class="field">
+          <span>Provider</span>
+          <select id="provider">
+            <option value="anthropic">Anthropic (Claude)</option>
+            <option value="openai">OpenAI-compatible</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Model</span>
+          <input id="model" type="text" placeholder="claude-haiku-4-5-20251001" />
+        </label>
+        <label class="field field-wide">
+          <span>API key</span>
+          <input id="apiKey" type="password" placeholder="Paste your API key" autocomplete="off" />
+        </label>
+        <label class="field field-wide" id="baseUrlField" hidden>
+          <span>Base URL <span class="text-muted">(OpenAI-compatible only — leave blank for OpenAI)</span></span>
+          <input id="baseUrl" type="text" placeholder="https://api.openai.com/v1" autocomplete="off" />
+        </label>
+      </div>
+
+      <div class="flex gap-8 mt-12" style="flex-wrap:wrap">
+        <button class="btn btn-primary" id="saveAi">Save</button>
+        <button class="btn btn-ghost" id="testAi">Test connection</button>
+        <button class="btn btn-ghost" id="clearAi">Remove key</button>
+        <span id="aiStatus" class="text-muted text-sm" role="status" aria-live="polite"></span>
+      </div>
+    </section>
+
+    <!-- Data management -->
+    <section class="card mt-24" aria-labelledby="dataHead">
+      <h2 id="dataHead" style="margin-top:0">Your data</h2>
+      <p class="text-muted">
+        All drafts, scores, teacher notes and survey answers are stored only in this browser.
+        Export a copy for safekeeping or to hand to a teacher/researcher, or clear everything.
+      </p>
+      <div class="flex gap-8" style="flex-wrap:wrap">
+        <button class="btn btn-ghost" id="exportData">Export my data (JSON)</button>
+        <button class="btn btn-ghost" id="resetData">Clear all my data</button>
+        <span id="dataStatus" class="text-muted text-sm" role="status" aria-live="polite"></span>
+      </div>
+    </section>
+
+    <!-- Acceptance survey (RQ2 / AT-EAI aligned) -->
+    <section class="card mt-24" aria-labelledby="surveyHead">
+      <h2 id="surveyHead" style="margin-top:0">Tell us how ArguMentor is working for you</h2>
+      <p class="text-muted">
+        Four quick questions on usefulness, usability, learning support and ethical acceptability.
+        Optional and anonymous; answers stay in your browser and are included if you export your data.
+      </p>
+      <div id="surveyForm"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    ArguMentor · Capstone prototype for TDLL 7000 · Designed for Grade 11 ESL writers in Hong Kong.
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script src="js/llm.js"></script>
+  <script src="js/settings.js"></script>
+</body>
+</html>

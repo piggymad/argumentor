@@ -7,10 +7,12 @@
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
+  <a class="skip-link" href="#editor">Skip to the editor</a>
   <nav class="nav">
     <a href="index.html" class="nav-brand">
       <span class="logo">A</span><span>ArguMentor</span>
     </a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
     <div class="nav-links">
       <a href="index.html">Home</a>
       <a href="workspace.html">Workspace</a>
@@ -18,16 +20,17 @@
       <a href="dashboard.html">Progress</a>
       <a href="teacher.html">Teacher</a>
       <a href="resources.html">Resources</a>
+      <a href="settings.html">Settings</a>
     </div>
   </nav>
 
   <div class="workspace">
     <!-- LEFT: topic + Toulmin scaffold -->
-    <aside class="panel">
-      <div class="tabs">
-        <button class="tab-btn active" data-tab="topic">Topic</button>
-        <button class="tab-btn" data-tab="scaffold">Toulmin</button>
-        <button class="tab-btn" data-tab="drafts">Drafts</button>
+    <aside class="panel" aria-label="Topic and Toulmin scaffold">
+      <div class="tabs" role="tablist">
+        <button class="tab-btn active" data-tab="topic" role="tab" aria-selected="true">Topic</button>
+        <button class="tab-btn" data-tab="scaffold" role="tab" aria-selected="false">Toulmin</button>
+        <button class="tab-btn" data-tab="drafts" role="tab" aria-selected="false">Drafts</button>
       </div>
 
       <div class="panel-body">
@@ -58,15 +61,18 @@
       <div class="panel-header">
         <h3 id="essayTitle">Untitled draft</h3>
         <div class="flex gap-8">
+          <button class="btn btn-ghost btn-sm" id="viewToggle" aria-pressed="false">Show components</button>
           <button class="btn btn-ghost btn-sm" id="newDraftBtn">New</button>
           <button class="btn btn-ghost btn-sm" id="saveBtn">Save</button>
           <button class="btn btn-primary btn-sm" id="submitBtn">Submit for review</button>
         </div>
       </div>
+      <label class="sr-only" for="editor">Essay editor</label>
       <textarea id="editor" placeholder="Start drafting your argumentative essay here.
 
 A strong opening states your claim in one sentence.
 Try: &quot;I argue that…&quot; or &quot;This essay contends that…&quot;"></textarea>
+      <div id="highlightView" class="highlight-view" hidden aria-live="polite"></div>
       <div class="toolbar">
         <div class="toolbar-info">
           <span><strong id="wcVal">0</strong> words</span>
@@ -81,14 +87,21 @@ Try: &quot;I argue that…&quot; or &quot;This essay contends that…&quot;"></t
     </main>
 
     <!-- RIGHT: feedback -->
-    <aside class="panel">
-      <div class="tabs">
-        <button class="tab-btn active" data-tab="feedback">Feedback</button>
-        <button class="tab-btn" data-tab="scores">Scores</button>
+    <aside class="panel" aria-label="Feedback">
+      <div class="tabs" role="tablist">
+        <button class="tab-btn active" data-tab="feedback" role="tab" aria-selected="true">Feedback</button>
+        <button class="tab-btn" data-tab="scores" role="tab" aria-selected="false">Scores</button>
       </div>
 
       <div class="panel-body">
         <div class="tab-pane active" data-pane="feedback" id="feedbackPane">
+          <div class="feedback-section" id="aiSection">
+            <div class="flex-between" style="align-items:center">
+              <h4 style="margin:0">AI review <span class="pill pill-optional" id="aiPill">optional</span></h4>
+              <button class="btn btn-ghost btn-sm" id="aiReviewBtn">Run AI review</button>
+            </div>
+            <div id="aiFeedback" aria-live="polite"></div>
+          </div>
           <div class="feedback-section">
             <h4>Argument structure</h4>
             <div id="argTips"></div>
@@ -103,8 +116,9 @@ Try: &quot;I argue that…&quot; or &quot;This essay contends that…&quot;"></t
           <div id="scoreList"></div>
           <p class="text-muted text-sm mt-12">
             Scores are derived heuristically from Toulmin component cues, paragraph
-            organisation and sentence-length variance. The same module can be swapped
-            for a real LLM scorer without changing the UI.
+            organisation and sentence-length variance. They are an internal teaching signal,
+            not a validated mark. Connect an AI key in <a href="settings.html">Settings</a> for
+            model-based feedback on top of these.
           </p>
         </div>
       </div>
@@ -113,6 +127,7 @@ Try: &quot;I argue that…&quot; or &quot;This essay contends that…&quot;"></t
 
   <script src="js/app.js"></script>
   <script src="js/feedback-engine.js"></script>
+  <script src="js/llm.js"></script>
   <script src="js/workspace.js"></script>
 </body>
 </html>

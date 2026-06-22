@@ -18,7 +18,9 @@
     'Suggest a counter-argument I should address'
   ];
 
-  function addMessage(role, text) {
+  const history = [];
+
+  function addMessage(role, text, record = true) {
     const div = document.createElement('div');
     div.className = 'message ' + role;
     if (role === 'tutor') {
@@ -28,6 +30,8 @@
     }
     messagesEl.appendChild(div);
     messagesEl.scrollTop = messagesEl.scrollHeight;
+    if (record) history.push({ role, text });
+    return div;
   }
 
   function getDraftContext() {
@@ -56,16 +60,36 @@
   addMessage('tutor', "Hi — I'm your argumentation tutor.\n\nI won't draft the essay for you, but I'll ask you the questions a careful teacher would. To start, what argumentative essay topic are you working on, and what is your current claim?");
   renderChips();
 
-  form.addEventListener('submit', e => {
+  form.addEventListener('submit', async e => {
     e.preventDefault();
     const text = input.value.trim();
     if (!text) return;
     addMessage('user', text);
     input.value = '';
-    setTimeout(() => {
-      const reply = ArguMentorEngine.tutorReply(text, getDraftContext());
-      addMessage('tutor', reply);
-    }, 420); // small delay feels more natural
+
+    const ctx = getDraftContext();
+    const useLLM = window.ArguMentorLLM && ArguMentorLLM.isConfigured();
+
+    if (!useLLM) {
+      // Offline Socratic engine.
+      setTimeout(() => {
+        addMessage('tutor', ArguMentorEngine.tutorReply(text, ctx));
+      }, 420); // small delay feels more natural
+      return;
+    }
+
+    // Optional model-backed tutor, with graceful fallback.
+    const typing = addMessage('tutor', '…', false);
+    typing.classList.add('typing');
+    try {
+      const reply = await ArguMentorLLM.tutorReply(history, ctx && ctx.text);
+      typing.remove();
+      addMessage('tutor', reply || ArguMentorEngine.tutorReply(text, ctx));
+    } catch (err) {
+      typing.remove();
+      addMessage('tutor', ArguMentorEngine.tutorReply(text, ctx));
+      AM.toast('AI tutor unavailable — using the offline tutor.');
+    }
   });
 
   function escapeHtml(s) {

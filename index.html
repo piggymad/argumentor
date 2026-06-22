@@ -3,15 +3,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ArguMentor — AI Writing Assistant for Argumentative Writing</title>
+  <title>ArguMentor — A Toulmin-Based Writing Assistant for Argumentative Writing</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
   <nav class="nav">
     <a href="index.html" class="nav-brand">
       <span class="logo">A</span>
       <span>ArguMentor</span>
     </a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
     <div class="nav-links">
       <a href="index.html">Home</a>
       <a href="workspace.html">Workspace</a>
@@ -19,15 +21,21 @@
       <a href="dashboard.html">Progress</a>
       <a href="teacher.html">Teacher</a>
       <a href="resources.html">Resources</a>
+      <a href="settings.html">Settings</a>
     </div>
   </nav>
 
-  <section class="hero">
+  <section class="hero" id="main">
     <h1>Argue with clarity. Write with evidence.</h1>
     <p class="lead">
-      An AI writing assistant for Hong Kong Grade-11 students that goes beyond grammar checks —
+      A Toulmin-based writing assistant for Hong Kong Grade-11 students that goes beyond grammar checks —
       designed around <strong>Toulmin&rsquo;s six components of argument</strong> to coach
       claims, evidence, warrants, and rebuttals.
+    </p>
+    <p class="lead" style="font-size:15px; opacity:.85">
+      Feedback runs on a transparent, fully offline rule-based engine by default. You can optionally
+      connect your own large-language-model key for richer feedback — the rule-based engine always
+      remains as a fallback.
     </p>
     <div class="hero-cta">
       <a class="btn btn-primary" href="workspace.html">Start writing →</a>
@@ -86,7 +94,7 @@
         The platform implements three frameworks from the project literature review:
       </p>
       <ul style="line-height:1.9">
-        <li><strong>Toulmin&rsquo;s Model of Argumentation</strong> (Turós et al., 2024) — operationalised in the live component detector.</li>
+        <li><strong>Toulmin&rsquo;s Model of Argumentation</strong> (Toulmin, 2003; applied by Turós et al., 2025) — operationalised in the live component detector.</li>
         <li><strong>Process Writing Theory</strong> (MacArthur, 2015; Hayes, 2012) — drafts are versioned so revision is tracked, not erased.</li>
         <li><strong>Sociocultural Learning Theory</strong> (Vygotsky, via Jeong et al., 2022) — the AI tutor plays the &ldquo;more knowledgeable other&rdquo;: it scaffolds without doing the cognitive work for the learner.</li>
       </ul>

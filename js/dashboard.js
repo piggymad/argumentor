@@ -52,19 +52,43 @@
   const list = $('#draftListFull');
   const reverseAnalyses = analyses.slice().reverse();
   reverseAnalyses.forEach(({ draft, r }) => {
-    const div = document.createElement('div');
-    div.className = 'draft-list-row';
-    div.innerHTML = `
+    const wrap = document.createElement('div');
+    const revs = (draft.revisions || []).slice();
+    const hasHistory = revs.length > 1;
+    const row = document.createElement('div');
+    row.className = 'draft-list-row';
+    row.innerHTML = `
       <div>
         <div style="font-weight:600">${escapeHtml((draft.topicTitle || 'Untitled').slice(0, 70))}</div>
         <div class="meta">${AM.fmtDate(draft.updatedAt)} · v${draft.version || 1} · ${r.wordCount} words · score ${r.scores.overall}</div>
       </div>
       <div class="flex gap-8">
         ${draft.submitted ? '<span class="tag tag-claim">submitted</span>' : '<span class="tag">draft</span>'}
+        ${hasHistory ? '<button class="btn btn-ghost btn-sm" data-act="history">History</button>' : ''}
         <a class="btn btn-ghost btn-sm" href="workspace.html?draft=${encodeURIComponent(draft.id)}">Open</a>
       </div>
     `;
-    list.appendChild(div);
+    wrap.appendChild(row);
+
+    if (hasHistory) {
+      const panel = document.createElement('div');
+      panel.className = 'card';
+      panel.hidden = true;
+      panel.style.cssText = 'margin:0 0 8px; padding:14px; background:var(--surface-2)';
+      panel.innerHTML = '<div style="font-weight:600; margin-bottom:8px">Revision history — revisions are kept, not erased</div>' +
+        revs.map((rev, i) => {
+          const prev = i > 0 ? ArguMentorEngine.wordCount(revs[i - 1].content) : null;
+          const wc = ArguMentorEngine.wordCount(rev.content);
+          const delta = prev == null ? '' : ` · ${wc - prev >= 0 ? '+' : ''}${wc - prev} words vs previous`;
+          return `<div class="meta" style="padding:4px 0">v${rev.version} · ${AM.fmtDate(rev.at)} · ${wc} words${delta}</div>`;
+        }).join('');
+      wrap.appendChild(panel);
+      row.querySelector('[data-act="history"]').addEventListener('click', (e) => {
+        panel.hidden = !panel.hidden;
+        e.currentTarget.textContent = panel.hidden ? 'History' : 'Hide';
+      });
+    }
+    list.appendChild(wrap);
   });
 
   // ---------- Helpers ----------
