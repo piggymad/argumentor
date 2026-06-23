@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Researcher Console · ArguMentor</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <nav class="nav">
+    <a href="index.html" class="nav-brand"><span class="logo">A</span><span>ArguMentor</span></a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="workspace.html">Workspace</a>
+      <a href="tutor.html">AI Tutor</a>
+      <a href="dashboard.html">Progress</a>
+      <a href="teacher.html">Teacher</a>
+      <a href="resources.html">Resources</a>
+      <a href="settings.html">Settings</a>
+      <a href="research.html">Research</a>
+    </div>
+  </nav>
+
+  <main class="container" id="main">
+    <div class="page-header">
+      <h1>Researcher console</h1>
+      <p>Collect and export the study dataset: participant roster, pre/post rubric scores,
+        drafting logs, and interview codes — in the same shape as the analysis database.</p>
+    </div>
+
+    <div class="callout" role="note">
+      <strong>De-identified by design.</strong> Record participants only by an auto-generated ID
+      (P-001, P-002, …) and group — never names. Data stays in this browser's
+      <code>localStorage</code> until you export it.
+    </div>
+
+    <section class="card mt-24" aria-labelledby="rosterHead">
+      <h2 id="rosterHead" style="margin-top:0">1. Participants</h2>
+      <div class="flex gap-8" style="flex-wrap:wrap; align-items:flex-end">
+        <label class="field"><span>Group</span>
+          <select id="newGroup">
+            <option value="Experimental">Experimental (uses ArguMentor)</option>
+            <option value="Control">Control (conventional)</option>
+          </select>
+        </label>
+        <button class="btn btn-primary" id="addParticipant">Add participant</button>
+        <button class="btn btn-ghost" id="seedRoster">Add 37 + 37 (blank roster)</button>
+      </div>
+      <div id="roster" style="margin-top:14px"></div>
+    </section>
+
+    <section class="card mt-24" aria-labelledby="scoreHead">
+      <h2 id="scoreHead" style="margin-top:0">2. Rubric scores (Toulmin)</h2>
+      <p class="text-muted">Select a participant above, then enter the blind examiner's pre- and
+        post-test scores for each component. Totals and gains compute automatically. Maximums:
+        claim 15 · data 20 · warrant 15 · backing 15 · qualifier 15 · rebuttal 20 (total 100).</p>
+      <div id="scoreEditor"><p class="text-muted">No participant selected.</p></div>
+    </section>
+
+    <section class="card mt-24" aria-labelledby="intHead">
+      <h2 id="intHead" style="margin-top:0">3. Interview coding (optional)</h2>
+      <p class="text-muted">For interviewed participants, record the performance band and the four
+        AT-EAI-aligned dimension codes (positive = 1).</p>
+      <div id="interviewEditor"><p class="text-muted">No participant selected.</p></div>
+    </section>
+
+    <section class="card mt-24" aria-labelledby="exportHead">
+      <h2 id="exportHead" style="margin-top:0">4. Collection summary &amp; export</h2>
+      <div id="collectSummary"></div>
+      <div class="flex gap-8 mt-12" style="flex-wrap:wrap">
+        <button class="btn btn-primary" id="expParticipants">participants.csv</button>
+        <button class="btn btn-ghost" id="expInterviews">interview_codes.csv</button>
+        <button class="btn btn-ghost" id="expDrafts">drafting_logs.csv</button>
+        <button class="btn btn-ghost" id="expJson">Combined JSON</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    ArguMentor · Capstone project for TDLL 7000 · Researcher console (de-identified data only).
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script src="js/feedback-engine.js"></script>
+  <script src="js/research.js"></script>
+</body>
+</html>

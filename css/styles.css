@@ -695,3 +695,15 @@ a:hover { color: var(--primary-dark); }
 .likert-opt:has(input:checked) {
   border-color: var(--primary); background: var(--primary-soft); color: var(--primary);
 }
+
+/* ---------- Data tables (researcher console) ---------- */
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.data-table th, .data-table td {
+  border: 1px solid var(--border); padding: 6px 8px; text-align: left; vertical-align: middle;
+}
+.data-table th { background: var(--surface-2); font-weight: 600; }
+.data-table tr.sel { background: var(--primary-soft); }
+.data-table input[type="number"] {
+  width: 84px; padding: 4px 6px; border: 1px solid var(--border);
+  border-radius: 6px; font-family: inherit; font-size: 13px;
+}
