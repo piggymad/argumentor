@@ -209,29 +209,37 @@
 
     if (items.length < 1) return;
 
+    // inset the plotting band so the first/last points do not sit on the axes
+    const innerPad = items.length > 1 ? 24 : 0;
+    const xAt = (i) => items.length === 1
+      ? padL + W / 2
+      : padL + innerPad + ((W - 2 * innerPad) * i) / (items.length - 1);
+
     // line
     ctx.strokeStyle = '#4f46e5';
     ctx.lineWidth = 2;
     ctx.beginPath();
     items.forEach((it, i) => {
-      const x = padL + (items.length === 1 ? W / 2 : (W * i) / (items.length - 1));
+      const x = xAt(i);
       const y = padT + H - (it.r.scores.overall / 100) * H;
       if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
     });
     ctx.stroke();
 
     items.forEach((it, i) => {
-      const x = padL + (items.length === 1 ? W / 2 : (W * i) / (items.length - 1));
+      const x = xAt(i);
       const y = padT + H - (it.r.scores.overall / 100) * H;
       ctx.fillStyle = '#4f46e5';
       ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2); ctx.fill();
+      // sequential draft label (drafts may share an internal version number)
       ctx.fillStyle = '#1d2434';
       ctx.font = '600 11px Inter, sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText('v' + (it.draft.version || 1), x, padT + H + 18);
+      ctx.fillText('v' + (i + 1), x, padT + H + 18);
+      // score value, nudged up and away from the axis edge
       ctx.fillStyle = '#5b6479';
       ctx.font = '10px Inter, sans-serif';
-      ctx.fillText(it.r.scores.overall, x, y - 8);
+      ctx.fillText(it.r.scores.overall, x, y - 9);
     });
   }
 

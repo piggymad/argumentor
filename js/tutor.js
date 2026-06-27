@@ -58,6 +58,19 @@
 
   // Greeting
   addMessage('tutor', "Hi — I'm your argumentation tutor.\n\nI won't draft the essay for you, but I'll ask you the questions a careful teacher would. To start, what argumentative essay topic are you working on, and what is your current claim?");
+
+  // Seeded demo exchange — illustrates Socratic scaffolding across the Toulmin
+  // components. Display-only (record=false) so it is not sent to the model as history.
+  const DEMO = [
+    ['user', 'My topic is whether social media should be banned for students under 16.'],
+    ['tutor', "Good, debatable topic. Right now \"should it be banned\" is a question, not yet a claim.\n\nTurn it into a one-sentence position someone could reasonably disagree with. For example: \"A full ban is the wrong tool; stronger rules and education work better.\"\n\nWhat is your one-sentence claim?"],
+    ['user', 'I think a total ban is not the best solution — better rules and education are needed.'],
+    ['tutor', "That is a clear claim. Now it needs DATA — the grounds that make a reader believe you.\n\nUse only evidence you can actually cite:\n• A statistic ('A 2023 study found…')\n• An example (a real policy or case)\n• An authority (a report or expert)\n\nWhich one fits your claim, and what does it show?"],
+    ['user', 'A study found banning phones did not improve teen wellbeing much.'],
+    ['tutor', "Useful — but a careful reader will ask WHY that evidence supports your claim. That link is your WARRANT.\n\nFinish this sentence: \"This study supports my claim because…\"\n\nAnd before you submit, what is the strongest objection someone could raise — your REBUTTAL to handle?"]
+  ];
+  DEMO.forEach(([role, text]) => addMessage(role, text, false));
+
   renderChips();
 
   form.addEventListener('submit', async e => {
